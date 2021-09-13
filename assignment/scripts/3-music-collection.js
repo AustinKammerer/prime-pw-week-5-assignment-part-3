@@ -17,17 +17,17 @@ console.log(
   addToCollection("Physical Graffiti", "Led Zeppelin", 1975)
 );
 console.log(
-  "Adding 'Metallica'",
-  addToCollection("Metallica", "Metallica", 1991)
+  "Adding 'Hardwired... to Self-Destruct'",
+  addToCollection("Hardwired... to Self-Destruct", "Metallica", 2016)
 );
-console.log("Adding 'Fortitude'", addToCollection("Fortitude", "Gojira", 2021));
+console.log("Adding 'Magma'", addToCollection("Magma", "Gojira", 2016));
 console.log(
-  "Adding 'Rumours'",
-  addToCollection("Rumours", "Fleetwood Mac", 1977)
+  "Adding 'Fear Innoculum'",
+  addToCollection("Fear Innoculum", "TOOL", 2019)
 );
 console.log(
-  "Adding 'Earth Crisis'",
-  addToCollection("Earth Crisis", "Steel Pulse", 1984)
+  "Adding 'Wish You Were Here'",
+  addToCollection("Wish You Were Here", "Pink Floyd", 1975)
 );
 console.log(collection);
 
@@ -42,3 +42,23 @@ function showCollection(collectionArray) {
 }
 console.log("Testing showCollection:");
 showCollection(collection);
+
+console.log("******* findByArtist *******");
+function findByArtist(artist) {
+  let artistCollection = [];
+  for (let album of collection) {
+    if (album.artist === artist) {
+      artistCollection.push(album);
+    }
+  }
+  return artistCollection;
+}
+console.log("Testing findByArtist: find TOOL (expect 2)", findByArtist("TOOL"));
+console.log(
+  "Testing findByArtist: find Metallica (expect 1)",
+  findByArtist("Metallica")
+);
+console.log(
+  "Testing findByArtist: find The Beatles (expect 0)",
+  findByArtist("The Beatles")
+);
