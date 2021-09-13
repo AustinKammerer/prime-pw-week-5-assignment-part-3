@@ -30,3 +30,15 @@ console.log(
   addToCollection("Earth Crisis", "Steel Pulse", 1984)
 );
 console.log(collection);
+
+console.log("****** showCollection ******");
+function showCollection(collectionArray) {
+  console.log(`Collection size: ${collectionArray.length}`);
+  for (album of collectionArray) {
+    console.log(
+      `"${album.title}" by ${album.artist}, published in ${album.yearPublished}`
+    );
+  }
+}
+console.log("Testing showCollection:");
+showCollection(collection);
