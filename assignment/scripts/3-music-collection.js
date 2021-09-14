@@ -106,19 +106,19 @@ function search(searchObj) {
 console.log(
   "Testing search: TOOL, 2001 (expect 1)",
   search({ artist: "TOOL", year: 2001 })
-);
+); // artist AND year match
 console.log(
   "Testing search: Metallica (expect 1)",
   search({ artist: "Metallica" })
-);
-console.log("Testing search: 1975 (expect 2)", search({ year: 1975 }));
+); // searched for artist only
+console.log("Testing search: 1975 (expect 2)", search({ year: 1975 })); // searched for year only
 console.log(
   "Testing search: Gojira, 2001 (expect empty)",
   search({ artist: "Gojira", year: 2001 })
-);
+); // artist and year present in collection, but not this combination
 console.log(
   "Testing search: Led Zeppelin, 1971 (expect empty)",
   search({ artist: "Led Zeppelin", year: 1971 })
-);
+); // artist is present but no match for year
 console.log("Testing search: empty search obj (expect collection)", search({}));
 console.log("Testing search: no search obj (expect collection)", search());
