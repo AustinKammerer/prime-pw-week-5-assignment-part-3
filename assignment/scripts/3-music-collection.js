@@ -1,4 +1,5 @@
 console.log("***** Music Collection *****");
+// addToCollection
 console.log("****** addToCollection ******");
 
 let collection = [];
@@ -11,6 +12,7 @@ function addToCollection(title, artist, yearPublished) {
   collection.push(album);
   return album;
 }
+// Tests
 console.log("Adding 'Lateralus'", addToCollection("Lateralus", "TOOL", 2001));
 console.log(
   "Adding 'Physical Graffiti'",
@@ -31,6 +33,7 @@ console.log(
 );
 console.log(collection);
 
+// showCollection
 console.log("****** showCollection ******");
 function showCollection(collectionArray) {
   console.log(`Collection size: ${collectionArray.length}`);
@@ -40,9 +43,11 @@ function showCollection(collectionArray) {
     );
   }
 }
+// Tests
 console.log("Testing showCollection:");
 showCollection(collection);
 
+// findByArtist
 console.log("******* findByArtist *******");
 function findByArtist(artist) {
   let artistCollection = [];
@@ -53,6 +58,7 @@ function findByArtist(artist) {
   }
   return artistCollection;
 }
+// Tests
 console.log("Testing findByArtist: find TOOL (expect 2)", findByArtist("TOOL"));
 console.log(
   "Testing findByArtist: find Metallica (expect 1)",
@@ -64,6 +70,7 @@ console.log(
 );
 
 // Stretch Goals
+// search - searchObj may contain 'artist' and/or 'year' or may be empty or undefined
 console.log("********  search  ********");
 function search(searchObj) {
   if (!searchObj || Object.entries(searchObj).length === 0) {
@@ -72,6 +79,20 @@ function search(searchObj) {
   let searchCollection = [];
   for (let album of collection) {
     if (
+      Object.entries(searchObj).length === 1 &&
+      Object.keys(searchObj)[0] === "artist"
+    ) {
+      if (album.artist === searchObj.artist) {
+        searchCollection.push(album);
+      }
+    } else if (
+      Object.entries(searchObj).length === 1 &&
+      Object.keys(searchObj)[0] === "year"
+    ) {
+      if (album.yearPublished === searchObj.year) {
+        searchCollection.push(album);
+      }
+    } else if (
       album.artist === searchObj.artist &&
       album.yearPublished === searchObj.year
     ) {
@@ -80,13 +101,24 @@ function search(searchObj) {
   }
   return searchCollection;
 }
+
+// Tests
 console.log(
   "Testing search: TOOL, 2001 (expect 1)",
   search({ artist: "TOOL", year: 2001 })
 );
 console.log(
-  "Testing search: Metallica, 2001 (expect empty)",
-  search({ artist: "Metallica", year: 2001 })
+  "Testing search: Metallica (expect 1)",
+  search({ artist: "Metallica" })
+);
+console.log("Testing search: 1975 (expect 2)", search({ year: 1975 }));
+console.log(
+  "Testing search: Gojira, 2001 (expect empty)",
+  search({ artist: "Gojira", year: 2001 })
+);
+console.log(
+  "Testing search: Led Zeppelin, 1971 (expect empty)",
+  search({ artist: "Led Zeppelin", year: 1971 })
 );
 console.log("Testing search: empty search obj (expect collection)", search({}));
 console.log("Testing search: no search obj (expect collection)", search());
