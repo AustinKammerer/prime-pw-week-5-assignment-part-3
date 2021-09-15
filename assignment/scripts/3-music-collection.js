@@ -71,12 +71,15 @@ console.log(
 
 // Stretch Goals
 // search - searchObj may contain 'artist' and/or 'year' or may be empty or undefined
+// updated - searchObj may contain 'trackName'
+// if searching trackName, no other properties may be passed in
 console.log("********  search  ********");
 function search(searchObj) {
+  let searchCollection = [];
   if (!searchObj || Object.entries(searchObj).length === 0) {
     return collection;
+    // if search object is empty or not passed
   }
-  let searchCollection = [];
   for (let album of collection) {
     if (
       Object.entries(searchObj).length === 1 &&
@@ -84,6 +87,7 @@ function search(searchObj) {
     ) {
       if (album.artist === searchObj.artist) {
         searchCollection.push(album);
+        // if only an artist name is passed
       }
     } else if (
       Object.entries(searchObj).length === 1 &&
@@ -91,12 +95,25 @@ function search(searchObj) {
     ) {
       if (album.yearPublished === searchObj.year) {
         searchCollection.push(album);
+        // if only a year is passed
+      }
+    } else if (
+      Object.entries(searchObj).length === 1 &&
+      Object.keys(searchObj)[0] === "trackName"
+    ) {
+      let trackList = album.trackList;
+      for (let track of trackList) {
+        if (track.name === searchObj.trackName) {
+          searchCollection.push(album);
+          // if only a track name is passed
+        }
       }
     } else if (
       album.artist === searchObj.artist &&
       album.yearPublished === searchObj.year
     ) {
       searchCollection.push(album);
+      // if both an artist and year is passed
     }
   }
   return searchCollection;
@@ -177,6 +194,7 @@ Hardwired.trackList = [
   { name: "Am I Savage?", duration: "6:30" },
   { name: "Murder One", duration: "5:46" },
   { name: "Spit Out the Bone", duration: "7:10" },
+  { name: "Test Track", duration: "0:00" },
 ];
 Magma.trackList = [
   { name: "The Shooting Star", duration: "5:42" },
@@ -189,6 +207,7 @@ Magma.trackList = [
   { name: "Only Pain", duration: "4:00" },
   { name: "Low Lands", duration: "6:04" },
   { name: "Liberation", duration: "3:35" },
+  { name: "Test Track", duration: "0:00" },
 ];
 FearInnoculum.trackList = [
   { name: "Fear Innoculum", duration: "10:21" },
@@ -206,3 +225,21 @@ WishYouWereHere.trackList = [
   { name: "Wish You Were Here", duration: "5:35" },
   { name: "Shine On You Crazy Diamond (VI - IX)", duration: "12:28" },
 ];
+
+// track search Tests
+console.log(
+  "Testing track search: Schism (expect 1)",
+  search({ trackName: "Schism" })
+);
+console.log(
+  "Testing track search: 7empest (expect 1)",
+  search({ trackName: "7empest" })
+);
+console.log(
+  "Testing track search: Stairway to Heaven (expect empty)",
+  search({ trackName: "Stairway to Heaven" })
+);
+console.log(
+  "Testing track search: Test Track (expect 2)",
+  search({ trackName: "Test Track" })
+);
