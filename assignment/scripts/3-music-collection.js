@@ -81,12 +81,15 @@ WishYouWereHereTrackList = [
 
 let collection = [];
 function addToCollection(title, artist, yearPublished, trackList) {
+  // creating a new album object
   let album = {
+    // setting album object values with passed in arguments
     title: title,
     artist: artist,
     yearPublished: yearPublished,
     trackList: trackList,
   };
+  // adding albumm to collection array
   collection.push(album);
   return album;
 }
@@ -133,14 +136,20 @@ console.log(
 console.log(collection);
 
 // showCollection
+// updated to show track lists
 console.log("****** showCollection ******");
 function showCollection(collectionArray) {
+  // printing collection size
   console.log(`Collection size: ${collectionArray.length}`);
+  // looping over passed in array
   for (album of collectionArray) {
+    // printing album title, artist and year
     console.log(
       `"${album.title}" by ${album.artist}, published in ${album.yearPublished}:`
     );
+    // looping over the album's track list
     for (let i = 0; i < album.trackList.length; i++) {
+      // printing each track and its duration
       console.log(
         `${i + 1}. ${album.trackList[i].name}: ${album.trackList[i].duration}`
       );
@@ -155,9 +164,13 @@ showCollection(collection);
 // findByArtist
 console.log("******* findByArtist *******");
 function findByArtist(artist) {
+  // creating the search result array
   let artistCollection = [];
+  // looping over the 'collection' array
   for (let album of collection) {
+    // for each album in the array, checking if artist matches the passed in artist
     if (album.artist === artist) {
+      // adding any matches to the result array
       artistCollection.push(album);
     }
   }
@@ -180,46 +193,60 @@ console.log(
 // if searching trackName, no other properties may be passed in
 console.log("********  search  ********");
 function search(searchObj) {
+  // creating search results array
   let searchCollection = [];
+  // checking if search object exists or is empty
   if (!searchObj || Object.entries(searchObj).length === 0) {
+    // returns 'collection' if search object isn't passed or is empty
     return collection;
-    // if search object is empty or not passed
-  }
-  for (let album of collection) {
-    if (
-      Object.entries(searchObj).length === 1 &&
-      Object.keys(searchObj)[0] === "artist"
-    ) {
-      if (album.artist === searchObj.artist) {
-        searchCollection.push(album);
-        // if only an artist name is passed
-      }
-    } else if (
-      Object.entries(searchObj).length === 1 &&
-      Object.keys(searchObj)[0] === "year"
-    ) {
-      if (album.yearPublished === searchObj.year) {
-        searchCollection.push(album);
-        // if only a year is passed
-      }
-    } else if (
-      Object.entries(searchObj).length === 1 &&
-      Object.keys(searchObj)[0] === "trackName"
-    ) {
-      for (let track of album.trackList) {
-        if (track.name === searchObj.trackName) {
-          searchCollection.push(album);
-          // if only a track name is passed
+  } //end falsey/empty searchObj conditional
+  // if a search object is passed in
+  else {
+    // loop over 'collection' in order to compare each album to passed in search object
+    for (let album of collection) {
+      // checks if search object contatins only one property
+      if (Object.entries(searchObj).length === 1) {
+        // switch statement to look at the search object's single key
+        switch (Object.keys(searchObj)[0]) {
+          // checks if that property's key is 'artist'
+          case "artist":
+            // checks if the current album in the loop matches the passed in artist
+            if (album.artist === searchObj.artist) {
+              // adds any matches to the results array
+              searchCollection.push(album);
+            }
+            break; //end case code
+          // checks if that property's key is 'year'
+          case "year":
+            // checks if the current album in the loop matches the passed in year
+            if (album.yearPublished === searchObj.year) {
+              // adds any matches to the results array
+              searchCollection.push(album);
+            }
+            break; //end case code
+          // checks if that property's key is 'trackName'
+          case "trackName":
+            // loops over the current album's track list array
+            for (let track of album.trackList) {
+              // checks if any track in the current album has the same name as the passed in track name
+              if (track.name === searchObj.trackName) {
+                // adds the current album to the results array if a track name match is found
+                searchCollection.push(album);
+              }
+            }
+            break;
         }
+      } else if (
+        // checks if an artist and year property are both passed in and if they match the current album in the loop
+        album.artist === searchObj.artist &&
+        album.yearPublished === searchObj.year
+      ) {
+        // adds any matching albums to the results array
+        searchCollection.push(album);
       }
-    } else if (
-      album.artist === searchObj.artist &&
-      album.yearPublished === searchObj.year
-    ) {
-      searchCollection.push(album);
-      // if both an artist and year is passed
-    }
-  }
+    } //end loop over 'collection'
+  } //end searchObj with one or two properties conditional
+  // returns the results array when search is complete
   return searchCollection;
 }
 
@@ -257,7 +284,43 @@ console.log(
   "Testing track search: Stairway to Heaven (expect empty)",
   search({ trackName: "Stairway to Heaven" })
 );
+//testing for tracks with same name on different albums
 console.log(
   "Testing track search: Test Track (expect 2)",
   search({ trackName: "Test Track" })
-); //testing for tracks with same name on different albums
+);
+// if (Object.entries(searchObj).length === 1) {
+//   switch (Object.keys(searchObj)[0]) {
+//     case "artist":
+//       // checks if any album in 'collection' matches the passed in artist
+//       if (album.artist === searchObj.artist) {
+//         // adds any matches to the results array
+//         searchCollection.push(album);
+//       }
+//       break;
+//     case "year":
+//       // checks if any album in 'collection' matches the passed in year
+//       if (album.yearPublished === searchObj.year) {
+//         // adds any matches to the results array
+//         searchCollection.push(album);
+//       }
+//       break;
+//     case "trackName":
+//       // loops over the current album's track list array
+//       for (let track of album.trackList) {
+//         // checks if any track in the current album has the same name as the passed in track name
+//         if (track.name === searchObj.trackName) {
+//           // adds the current album to the results array if a track name match is found
+//           searchCollection.push(album);
+//         }
+//       }
+//       break;
+//   }
+// } else if (
+//   // checks if an artist and year property are both passed in and if they match any album in the 'collection' array
+//   album.artist === searchObj.artist &&
+//   album.yearPublished === searchObj.year
+// ) {
+//   // adds any matching albums to the results array
+//   searchCollection.push(album);
+// }
