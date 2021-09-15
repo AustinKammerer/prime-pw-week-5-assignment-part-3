@@ -289,38 +289,3 @@ console.log(
   "Testing track search: Test Track (expect 2)",
   search({ trackName: "Test Track" })
 );
-// if (Object.entries(searchObj).length === 1) {
-//   switch (Object.keys(searchObj)[0]) {
-//     case "artist":
-//       // checks if any album in 'collection' matches the passed in artist
-//       if (album.artist === searchObj.artist) {
-//         // adds any matches to the results array
-//         searchCollection.push(album);
-//       }
-//       break;
-//     case "year":
-//       // checks if any album in 'collection' matches the passed in year
-//       if (album.yearPublished === searchObj.year) {
-//         // adds any matches to the results array
-//         searchCollection.push(album);
-//       }
-//       break;
-//     case "trackName":
-//       // loops over the current album's track list array
-//       for (let track of album.trackList) {
-//         // checks if any track in the current album has the same name as the passed in track name
-//         if (track.name === searchObj.trackName) {
-//           // adds the current album to the results array if a track name match is found
-//           searchCollection.push(album);
-//         }
-//       }
-//       break;
-//   }
-// } else if (
-//   // checks if an artist and year property are both passed in and if they match any album in the 'collection' array
-//   album.artist === searchObj.artist &&
-//   album.yearPublished === searchObj.year
-// ) {
-//   // adds any matching albums to the results array
-//   searchCollection.push(album);
-// }
