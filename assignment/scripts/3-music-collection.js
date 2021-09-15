@@ -10,7 +10,7 @@ LateralusTrackList = [
   { name: "Schism", duration: "6:47" },
   { name: "Parabol", duration: "3:04" },
   { name: "Parabola", duration: "6:03" },
-  { name: "Ticks & Leeches", duration: ",8:10" },
+  { name: "Ticks & Leeches", duration: "8:10" },
   { name: "Lateralus", duration: "9:24" },
   { name: "Disposition", duration: "4:46" },
   { name: "Reflection", duration: "11:07" },
