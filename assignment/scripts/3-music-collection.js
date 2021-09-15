@@ -138,10 +138,16 @@ function showCollection(collectionArray) {
   console.log(`Collection size: ${collectionArray.length}`);
   for (album of collectionArray) {
     console.log(
-      `"${album.title}" by ${album.artist}, published in ${album.yearPublished}`
+      `"${album.title}" by ${album.artist}, published in ${album.yearPublished}:`
     );
+    for (let i = 0; i < album.trackList.length; i++) {
+      console.log(
+        `${i + 1}. ${album.trackList[i].name}: ${album.trackList[i].duration}`
+      );
+    }
   }
 }
+
 // Tests
 console.log("Testing showCollection:");
 showCollection(collection);
@@ -200,8 +206,7 @@ function search(searchObj) {
       Object.entries(searchObj).length === 1 &&
       Object.keys(searchObj)[0] === "trackName"
     ) {
-      let trackList = album.trackList;
-      for (let track of trackList) {
+      for (let track of album.trackList) {
         if (track.name === searchObj.trackName) {
           searchCollection.push(album);
           // if only a track name is passed
@@ -255,4 +260,4 @@ console.log(
 console.log(
   "Testing track search: Test Track (expect 2)",
   search({ trackName: "Test Track" })
-);
+); //testing for tracks with same name on different albums
