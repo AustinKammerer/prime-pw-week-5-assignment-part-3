@@ -189,8 +189,8 @@ console.log(
 
 // Stretch Goals
 // search - searchObj may contain 'artist' and/or 'year' or may be empty or undefined
-// updated - searchObj may contain 'trackName'
-// if searching trackName, no other properties may be passed in
+// updated - searchObj may contain 'trackName' (artist optional)
+
 console.log("********  search  ********");
 function search(searchObj) {
   // creating search results array
@@ -236,55 +236,90 @@ function search(searchObj) {
             }
             break;
         }
-      } else if (
-        // checks if an artist and year property are both passed in and if they match the current album in the loop
-        album.artist === searchObj.artist &&
-        album.yearPublished === searchObj.year
+      } // end searchObj one-property senario
+      else if (
+        // searchObj has two properties:
+        // checks if the artist passed in matches the current album in the loop
+        album.artist === searchObj.artist
       ) {
-        // adds any matching albums to the results array
-        searchCollection.push(album);
-      }
+        // checks if the year of searchObj and current album match
+        if (album.yearPublished === searchObj.year) {
+          // adds any matching albums to the results array
+          searchCollection.push(album);
+        } else {
+          // loops over the current album's trackList array
+          for (let track of album.trackList) {
+            // checks if the track name of searchObj and current album match
+            if (track.name === searchObj.trackName) {
+              // adds the current album to the results array if a track name match is found
+              searchCollection.push(album);
+            }
+          }
+        }
+      } //end searchObj two-property senario
     } //end loop over 'collection'
   } //end searchObj with one or two properties conditional
   // returns the results array when search is complete
   return searchCollection;
 }
 
-// Tests
+// search Tests
+// artist AND year match:
 console.log(
   "Testing search: TOOL, 2001 (expect 1)",
   search({ artist: "TOOL", year: 2001 })
-); // artist AND year match
+);
+// search for artist only:
 console.log(
   "Testing search: Metallica (expect 1)",
   search({ artist: "Metallica" })
-); // searched for artist only
-console.log("Testing search: 1975 (expect 2)", search({ year: 1975 })); // searched for year only
+);
+// search for artist only (two results):
+console.log("Testing search: TOOL (expect 2)", search({ artist: "TOOL" }));
+// search for year only (two results):
+console.log("Testing search: 1975 (expect 2)", search({ year: 1975 }));
+// artist and year present in collection, but not this combination:
 console.log(
   "Testing search: Gojira, 2001 (expect empty)",
   search({ artist: "Gojira", year: 2001 })
-); // artist and year present in collection, but not this combination
+);
+// artist is present but no match for year:
 console.log(
   "Testing search: Led Zeppelin, 1971 (expect empty)",
   search({ artist: "Led Zeppelin", year: 1971 })
-); // artist is present but no match for year
+);
+// search with empty searchObj:
 console.log("Testing search: empty search obj (expect collection)", search({}));
+// search with no searchObj:
 console.log("Testing search: no search obj (expect collection)", search());
 
 // track search Tests
+// search for trackName only, artist has multiples albums:
 console.log(
   "Testing track search: Schism (expect 1)",
   search({ trackName: "Schism" })
 );
+// search for trackName only, artist has multiples albums:
 console.log(
   "Testing track search: 7empest (expect 1)",
   search({ trackName: "7empest" })
 );
+// search for artist and trackName:
+console.log(
+  "Testing track search: Gojira, Stranded (expect 1)",
+  search({ artist: "Gojira", trackName: "Stranded" })
+);
+// search for artist and trackName, track not in collection:
+console.log(
+  "Testing track search: Metallica, Nothing Else Matters (expect empty)",
+  search({ artist: "Metallica", trackName: "Nothing Else Matters" })
+);
+// search for trackName only, not in collection:
 console.log(
   "Testing track search: Stairway to Heaven (expect empty)",
   search({ trackName: "Stairway to Heaven" })
 );
-//testing for tracks with same name on different albums
+// testing for tracks with same name on different albums
 console.log(
   "Testing track search: Test Track (expect 2)",
   search({ trackName: "Test Track" })
